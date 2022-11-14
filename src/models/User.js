@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const course = new Schema({
-  name: String,
+const customer = new Schema({
+  username:String,
+  password:String,
+  email:String,
+  phoneNumber:String
 },{ versionKey: false });
 
-module.exports = mongoose.model("course", course);
+module.exports = mongoose.model("course", customer);
