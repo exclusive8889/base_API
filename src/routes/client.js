@@ -12,6 +12,13 @@ client.get("/", authUser, (req, res, next) => {
     .catch(next);
 });
 
+// get one Client
+client.get("/:id", authUser, (req, res, next) => {
+  Customer.findById({ id_doc: getIddoc(req, res, next), _id: req.params.id })
+    .then((Customer) => res.json(Customer))
+    .catch(next);
+});
+
 client.post("/add", authUser, (req, res, next) => {
   const client = new Customer(
     req.body,
@@ -25,7 +32,7 @@ client.post("/add", authUser, (req, res, next) => {
 });
 
 client.delete("/delete/:id", authUser, (req, res, next) => {
-  Course.deleteOne({ _id: req.params.id })
+  Customer.deleteOne({ id_doc: getIddoc(req, res, next), _id: req.params.id })
     .then((course) => res.json("sc"))
     .catch(next);
 });
@@ -52,7 +59,7 @@ function authUser(req, res, next) {
       })
       .catch({ status: 403, mes: "khong co data" });
   } catch {
-    res.json({ status: 500, mes: "token not validity" });
+    res.status(401).json({ status: 401, mes: "Token invalid" });
   }
 }
 module.exports = client;

@@ -3,10 +3,11 @@ const Schema = mongoose.Schema;
 
 const customer = new Schema({
   name:String,
-  age:String,
+  age:Number,
   address:String,
   gender:String,
-  numberOfPhoto:Number,
+  dataImage:Array,
+  description:String,
   id_doc:String
 },{ versionKey: false });
 

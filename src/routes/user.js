@@ -27,7 +27,7 @@ user.post("/auth/login", (req, res, next) => {
           },
         });
       } else {
-        return res.json(data);
+        return res.json("Username or passwword invalid");
       }
     })
     .catch(() => res.json(req.body));
