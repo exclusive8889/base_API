@@ -48,8 +48,8 @@ user.get("/:id/edit", authUser, (req, res, next) => {
     .catch(next);
 });
 
-user.put("/:id", authUser, (req, res, next) => {
-  Course.updateOne({ _id: req.params.id }, req.body)
+user.put("/:id/edit", authUser, (req, res, next) => {
+  Course.updateOne({ _id: getIddoc(req, res, next) }, req.body)
     .then((course) => res.json("sc"))
     .catch(next);
 });
@@ -59,6 +59,12 @@ user.delete("/:id", authUser, (req, res, next) => {
     .then((course) => res.json("sc"))
     .catch(next);
 });
+
+function getIddoc(req, res, next) {
+  const token = req.headers.authorization.split(" ")[1];
+  const idUser = jwt.verify(token, "tdtung");
+  return idUser.atk;
+}
 
 function authUser(req, res, next) {
   try {

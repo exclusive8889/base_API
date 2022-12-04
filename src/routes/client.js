@@ -12,6 +12,28 @@ client.get("/", authUser, (req, res, next) => {
     .catch(next);
 });
 
+// sort createAt
+client.get("/limit", authUser, (req, res, next) => {
+  Customer.find({ id_doc: getIddoc(req, res, next) })
+    .sort({ createdAt: -1 })
+    .limit(5)
+    .then((Customer) => res.json(Customer))
+    .catch(next);
+});
+
+// thong ke
+client.get("/count", authUser, (req, res, next) => {
+  Customer.find({ id_doc: getIddoc(req, res, next) })
+    .count()
+    .then((Customer) => res.json(Customer))
+    .catch(next);
+});
+
+client.get("/sum", authUser, (req, res, next) => {
+  Customer.aggregate({ id_doc: getIddoc(req, res, next) })
+    .then((Customer) => res.json(Customer))
+    .catch(next);
+});
 // get one Client
 client.get("/:id", authUser, (req, res, next) => {
   Customer.findById({ id_doc: getIddoc(req, res, next), _id: req.params.id })
@@ -57,7 +79,7 @@ function authUser(req, res, next) {
           res.json({ status: 401 });
         }
       })
-      .catch({ status: 403, mes: "khong co data" });
+      .catch({ status: 403, mes: "Bad request" });
   } catch {
     res.status(401).json({ status: 401, mes: "Token invalid" });
   }

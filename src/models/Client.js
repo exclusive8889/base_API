@@ -9,6 +9,8 @@ const customer = new Schema({
   dataImage:Array,
   description:String,
   id_doc:String
-},{ versionKey: false });
+},
+{ versionKey: false,timestamps: true },
+);
 
 module.exports = mongoose.model("customer", customer);
