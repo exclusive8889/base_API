@@ -42,15 +42,16 @@ user.post("/add", (req, res, next) => {
   });
 });
 
-user.get("/:id/edit", authUser, (req, res, next) => {
+user.get("/:id", authUser, (req, res, next) => {
   Course.findById(req.params.id)
     .then((course) => res.json(course))
     .catch(next);
 });
 
-user.put("/:id/edit", authUser, (req, res, next) => {
+user.patch("/:id/edit", authUser, (req, res, next) => {
+  // console.log(req.body)
   Course.updateOne({ _id: getIddoc(req, res, next) }, req.body)
-    .then((course) => res.json("sc"))
+    .then((course) => res.json("status:200"))
     .catch(next);
 });
 

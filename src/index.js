@@ -4,7 +4,8 @@ const cors = require('cors')
 
 const db = require("./config/db");
 const route = require("./routes");
-const bodyParser = require("body-parser");
+const bodyParser 
+= require("body-parser");
 const port = 3334;
 
 
