@@ -41,6 +41,13 @@ client.get("/:id", authUser, (req, res, next) => {
     .catch(next);
 });
 
+// query
+// client.get("/query/:id", authUser, (req, res, next) => {
+//   Customer.findById({ id_doc: getIddoc(req, res, next), _id: req.params.id })
+//     .then((Customer) => res.json(Customer))
+//     .catch(next);
+// });
+
 client.post("/add", authUser, (req, res, next) => {
   const client = new Customer(
     req.body,

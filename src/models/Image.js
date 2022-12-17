@@ -5,7 +5,7 @@ const image = new Schema(
   {
     originImg: String,
     number: Number,
-    feedBackImg: String,
+    feedBackImg: Array,
   },
   { versionKey: false,timestamps: true  }
 );

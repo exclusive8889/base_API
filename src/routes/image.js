@@ -1,6 +1,7 @@
 const express = require("express");
 const image = express.Router();
 
+const Course = require("../models/User");
 const ImageTable = require("../models/Image");
 const Customer = require("../models/Client");
 
@@ -12,10 +13,21 @@ image.get("/", authUser, (req, res, next) => {
     .catch(next);
 });
 
+image.post("/list", (req, res, next) => {
+  // console.log(req.body)
+  // const ids = req.body;
+  ImageTable.find()
+    .where("_id")
+    .in(req.body)
+    .exec((err, records) => {
+      res.json(records);
+    });
+});
+
 image.post("/", (req, res, next) => {
   ImageTable.insertMany(req.body)
     .then(function (response) {
-      const listIdImg=response.map(item=>item._id)
+      const listIdImg = response.map((item) => item._id);
       // console.log(listIdImg)
       return res.json(listIdImg);
       // return res.json(response); // Success
