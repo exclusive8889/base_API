@@ -13,6 +13,13 @@ image.get("/", authUser, (req, res, next) => {
     .catch(next);
 });
 
+image.get("/total", authUser, (req, res, next) => {
+  ImageTable.find({})
+    .count()
+    .then((count) => res.json(count))
+    .catch(next);
+});
+
 image.post("/list", (req, res, next) => {
   // console.log(req.body)
   // const ids = req.body;

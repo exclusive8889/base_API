@@ -6,6 +6,8 @@ const Customer = require("../models/Client");
 const client = express.Router();
 const jwt = require("jsonwebtoken");
 
+const moment = require("moment");
+
 client.get("/", authUser, (req, res, next) => {
   Customer.find({ id_doc: getIddoc(req, res, next) })
     .then((Customer) => res.json(Customer))
@@ -21,18 +23,34 @@ client.get("/limit", authUser, (req, res, next) => {
     .catch(next);
 });
 
-// thong ke
-client.get("/count", authUser, (req, res, next) => {
+// thong ke user
+client.get("/total", authUser, (req, res, next) => {
   Customer.find({ id_doc: getIddoc(req, res, next) })
     .count()
     .then((Customer) => res.json(Customer))
     .catch(next);
 });
 
-client.get("/sum", authUser, (req, res, next) => {
-  Customer.aggregate({ id_doc: getIddoc(req, res, next) })
-    .then((Customer) => res.json(Customer))
-    .catch(next);
+// client.get("/sum", authUser, (req, res, next) => {
+//   Customer.aggregate({ id_doc: getIddoc(req, res, next) })
+//     .then((Customer) => res.json(Customer))
+//     .catch(next);
+// });
+client.post("/countclient/day", (req, res, next) => {
+  // const weekStart = moment().startOf("week");
+  // const weekEnd = moment().endOf("week");
+  // console.log(req.body.date);
+  // for (let i = 0; i < cars.length; i++) {
+  Customer.find({
+    createdAt: {
+      $gte: moment(req.body.date).startOf('day'),
+      $lte: moment(req.body.date).endOf('day')
+    },
+  })
+    // .count()
+    .then((count) => res.json({ type: moment(req.body.date).format("DD"), number: count.length }))
+    .catch();
+  // }
 });
 // get one Client
 client.get("/:id", authUser, (req, res, next) => {
@@ -53,9 +71,9 @@ client.post("/add", authUser, (req, res, next) => {
     req.body,
     (req.body.id_doc = getIddoc(req, res, next))
   );
-  client.save(function (err) {
+  client.save(function (err, response) {
     if (!err) {
-      return res.json({ status: 200 });
+      return res.json(response);
     }
   });
 });
