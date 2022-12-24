@@ -7,7 +7,10 @@ const Course = require("../models/User");
 const jwt = require("jsonwebtoken");
 
 historyFb.post("/add", authUser, (req, res, next) => {
-  const hisFb = new historyFbTable(req.body);
+  const hisFb = new historyFbTable(
+    req.body,
+    (req.body.id_doc = getIddoc(req, res, next))
+  );
   hisFb.save(function (err, response) {
     if (!err) {
       return res.json(response);
@@ -16,7 +19,8 @@ historyFb.post("/add", authUser, (req, res, next) => {
 });
 
 historyFb.get("/limit", authUser, (req, res, next) => {
-    historyFbTable.find({})
+  historyFbTable
+    .find({ id_doc: getIddoc(req, res, next)})
     .sort({ createdAt: -1 })
     .limit(5)
     .then((Customer) => res.json(Customer))

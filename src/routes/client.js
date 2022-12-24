@@ -43,12 +43,17 @@ client.post("/countclient/day", (req, res, next) => {
   // for (let i = 0; i < cars.length; i++) {
   Customer.find({
     createdAt: {
-      $gte: moment(req.body.date).startOf('day'),
-      $lte: moment(req.body.date).endOf('day')
+      $gte: moment(req.body.date).startOf("day"),
+      $lte: moment(req.body.date).endOf("day"),
     },
   })
     // .count()
-    .then((count) => res.json({ type: moment(req.body.date).format("DD"), number: count.length }))
+    .then((count) =>
+      res.json({
+        type: moment(req.body.date).format("DD"),
+        number: count.length,
+      })
+    )
     .catch();
   // }
 });
@@ -81,6 +86,16 @@ client.post("/add", authUser, (req, res, next) => {
 client.delete("/delete/:id", authUser, (req, res, next) => {
   Customer.deleteOne({ id_doc: getIddoc(req, res, next), _id: req.params.id })
     .then((course) => res.json("sc"))
+    .catch(next);
+});
+
+client.patch("/:id/edit", authUser, (req, res, next) => {
+  // console.log(req.body)
+  Customer.updateOne(
+    { _id: getIddoc(req, res, next), _id: req.params.id },
+    req.body
+  )
+    .then((course) => res.json("status:200"))
     .catch(next);
 });
 
