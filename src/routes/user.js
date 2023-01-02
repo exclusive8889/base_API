@@ -55,6 +55,14 @@ user.patch("/:id/edit", authUser, (req, res, next) => {
     .catch(next);
 });
 
+user.patch("/:id/changepw", authUser, (req, res, next) => {
+  res.json("sc")
+  // console.log(req.body)
+  // Course.updateOne({ _id: getIddoc(req, res, next) }, req.body)
+  //   .then((course) => res.json("status:200"))
+  //   .catch(next);
+});
+
 user.delete("/:id", authUser, (req, res, next) => {
   Course.deleteOne({ _id: req.params.id })
     .then((course) => res.json("sc"))

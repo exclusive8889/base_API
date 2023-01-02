@@ -21,8 +21,6 @@ image.get("/total", authUser, (req, res, next) => {
 });
 
 image.post("/list", (req, res, next) => {
-  // console.log(req.body)
-  // const ids = req.body;
   ImageTable.find()
     .where("_id")
     .in(req.body)
@@ -35,7 +33,6 @@ image.post("/", (req, res, next) => {
   ImageTable.insertMany(req.body)
     .then(function (response) {
       const listIdImg = response.map((item) => item._id);
-      // console.log(listIdImg)
       return res.json(listIdImg);
       // return res.json(response); // Success
     })
